@@ -35,8 +35,8 @@
      let resUser = await fetch(urlUser);
 
      if (resUser.status == 404) {
-         console.log('User is not exist')
-         return
+        getErrorMessage('User is nor exist')
+        return
      }
      let dataUser = await resUser.json();
 
@@ -108,9 +108,9 @@
 //  }
 
 function render(obj) {
-  let root_div = document.querySelector('#root');
-  const userContainer = document.createElement("div");
-  userContainer.className = 'user-container';
+  //preparing user-container div
+  container_div.innerHTML = ''
+
   const userElem = document.createElement("div");
   userElem.className = 'user';
   const nameElem = document.createElement("p");
@@ -119,12 +119,11 @@ function render(obj) {
   const postsElem = document.createElement("div");
   postsElem.className = 'posts'
 
-  userContainer.append(userElem);
-  userContainer.append(postsElem);
+  container_div.append(userElem);
+  container_div.append(postsElem);
   //    const postItemElem = document.createElement("div");
   //    const postNameElem = document.createElement("p");
   //    const postTextElem = document.createElement("p");
-  root_div.append(userContainer);
 
   Object.values(obj.user).forEach(elem => {
     let p_elem = document.createElement('p');
@@ -147,4 +146,56 @@ function render(obj) {
   });
 }
 
-getUserById1(5)
+// -------------------------------
+let root_div = document.querySelector('#root')
+
+// создание контейнера
+let container_div = document.createElement('div')
+container_div.className = 'user-container'
+root_div.append(container_div)
+
+// Задание: Напишите фунцию getErrorMessage(), которая построит внутри container_div элемент с текстовым значеием ошибки 
+// 'Пользователь не найден.' 
+// Можно использовать класс user
+
+function getErrorMessage(text) {
+  container_div.innerHTML = '';
+
+  const userElem = document.createElement("div");
+  userElem.className = 'user';
+  container_div.append(userElem);
+  
+  let p_elem = document.createElement("p");
+  p_elem.innerText = text;
+  userElem.append(p_elem)
+}
+// -----------------------------
+// Task 4
+// Написать функционал, который позволит по кнопкам (<- и ->) 
+// инкрементероивать и декрементировать аргумент функции getUserById
+
+// Функцию getUserById так же необходимо адаптировать под этот функционал
+let queue = 1;
+
+let [buttonDecr, buttonIncr] = document.querySelectorAll('button');
+
+buttonDecr.onclick = () => handle('decr')
+buttonIncr.onclick = () => handle('incr')
+
+
+getUserById1(2)
+
+// Доп-задание: 
+// Между кнопками отобразите информацию текущего пользователя (его id)
+
+function handle(type) {
+  if (type == 'decr') {
+    buttonDecr.onclick = () => getUserById1(--queue)
+  } else if(type == 'incr'){
+    buttonDecr.onclick = () => getUserById1(++queue)
+  }
+   // 4 task
+   let b_elem = document.querySelector('b');
+   b_elem.innerText = queue;
+}
+ 

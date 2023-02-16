@@ -1,0 +1,31 @@
+/* .todos_container{
+    display: grid;
+    grid-template-columns: repeat(5,1fr);
+    margin: 15px;
+}
+
+.done{
+    background-color: lightgreen;
+}
+
+.task{
+    background-color: lightgray;
+}
+
+.card{
+    padding: 3px;
+    margin: 15px;
+    border-radius: 10px;
+} */
+
+.todos_container {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 30px;
+  }
+  
+  .todo_card {
+    border: 1px solid black;
+    border-radius: 10px;
+    padding: 10px;
+  }

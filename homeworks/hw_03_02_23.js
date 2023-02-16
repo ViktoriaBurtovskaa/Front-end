@@ -4,7 +4,7 @@
 // Пример значений переменных:
  let order = { 
     productName: "Велосипед", 
-    costomerName: "Саша", 
+    customerName: "Саша", 
     salesName: "Петя", 
     totalPrice: 15000 
 } 
@@ -35,8 +35,17 @@ let properties = [];
             properties.push(key)
         }
 }
+// 2 variant
+let propertiess = [];
+for (let key in employees) {
+    if(typeof employees[key] == 'function'){
+       Object.defineProperties(employees,key,{enumerable : false})
+    }
+}
 
-console.log(properties.join(', ')) 
+let string = Object.keys(employees).join(', ')
+
+console.log(string) 
 
 
 // Пример результата: firstName, lastName, ratePerDay, workingDays
@@ -61,11 +70,8 @@ class Delivery{
         this.name = name,
         this.phone = phone
     }
-    validPhone(){
-        if (!this.phone.startsWith('+')) {
-            return false;
-        }
-        return true;
+    get validPhone(){
+        return this.phone.startsWith('+')  
     }
 }
 
@@ -77,7 +83,7 @@ let deliveryName =  new Delivery('macDonalds', '+748383892230');
 
 
 // Входные данные:
-class Permissions {
+class Permission {
     constructor() {
         this.create = false
         this.read = true
@@ -85,12 +91,12 @@ class Permissions {
         this.remove = false
     }
 }
-class Users extends Permissions{
+class User extends Permission{
     
     constructor(name){
         super()
         this.name = name
     }
 }
-const user1 = new Users('Viktoriia')
+const user1 = new User('Viktoriia')
 console.log(user1);

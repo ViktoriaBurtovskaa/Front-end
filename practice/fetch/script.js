@@ -5,6 +5,7 @@
 const users_container = document.querySelector('.users_container');
 
 const render = users => {
+    users_container.innerText = '';
     const users_card = users.map(({first_name, avatar}) => {
         const card = document.createElement('div');
         const avatarElem = document.createElement('img');
@@ -27,17 +28,9 @@ const getUsers = (num) => {
     .then(json => render(json.data));
 }
 
-let buttons = document.querySelectorAll('button');
+getUsers(1);
 
-// function handler() {
-//     getUsers(1)
-//     buttons.forEach(b => b.addEventListener('click', () => {
-//         let pageNumber = b.innerText
-//         return getUsers(pageNumber)
-//      }))
-//      buttons.forEach(b => b.removeEventListener('click', () => {
-//         let pageNumber = b.innerText
-//         return getUsers(pageNumber)
-//      }))
-// }
+const [first_btn, second_btn] = document.querySelectorAll('.triggers button');
+first_btn.addEventListener('click', () => getUsers(1))
+second_btn.addEventListener('click', () => getUsers(2))
 
