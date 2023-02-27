@@ -1,0 +1,31 @@
+.products_container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 6rem;
+}
+.triggers{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.product_card{
+    width:300px;
+    border: 1px solid black;
+    padding: 10px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.product_card img{
+    width: 200px;
+    height: 200px;
+    object-fit: contain;
+}
+
+.yellow {
+    color: #f1c40f;
+  }

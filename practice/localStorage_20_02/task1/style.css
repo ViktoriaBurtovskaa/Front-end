@@ -1,0 +1,10 @@
+.cards{
+    border: 1px solid #928080;
+    border-radius: 15px;
+    padding: 15px;
+}
+.root{
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    gap: 35px;
+}

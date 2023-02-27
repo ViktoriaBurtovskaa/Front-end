@@ -1,26 +1,34 @@
+let select_item = document.querySelector('.select_item')
+let div_root = document.querySelector('#root')
+
+function prerender() {
+    let storageData  =JSON.parse(localStorage.getItem('products'))
+    if (storageData) {
+        render(storageData)
+    } else {
+        fetchProductsList()
+    }
+}
 
 function fetchProductsList() {
     let url = "https://dummyjson.com/products";
     fetch(url)
             .then(res => res.json())
-            .then(data => render(data.products))
+            .then(data => {
+                localStorage.setItem('products', JSON.stringify(data.products))
+                render(data.products)           
+            })
 }
 
-// function fetchProduct(id) {
-//     let url = `https://dummyjson.com/products/${id}`;
-//     fetch(url)
-//             .then(res => res.json())
-//             .then(data => console.log(data))
-// }
-let div_root = document.querySelector('#root')
+
 
 function render(data) {
-    let div_container = document.createElement('div')
     div_root.innerHTML = ''
-    div_container.className = 'div_container'
-    div_root.append(div_container);
+    let div_container = document.createElement('div')
+    div_container.className = 'div_container'  
+    div_root.append(div_container)
 
-    for (const elem of data) {
+    for (let elem of data) {
         let div_item = document.createElement('div')
         div_item.className = 'div_item'
 
@@ -28,22 +36,33 @@ function render(data) {
         let p_title =  document.createElement('p')
         let p_price =  document.createElement('p')
 
+        let close =  document.createElement('i')
+        close.className = 'las la-times pos'
+
+        close.onclick = (e) => {
+            e.stopPropagation()
+            data = data.filter(value => value.id != elem.id)
+            localStorage.setItem('products', JSON.stringify(data))
+            // e.target.parentElement.getAttribute('num')
+            // e.target.parentElement.remove()
+            render(data)
+        }
+
         img_elem.src = elem.images[0]
         img_elem.width = 300
-
         p_title.innerText = `Title: ${elem.title}`
         p_price.innerText = `Price: ${elem.price}$`
 
-        div_item.append(img_elem, p_title, p_price, rating(elem.rating))
-        div_container.append(div_item)
+        div_item.append(img_elem, p_title, p_price, rating(elem.rating), close)
+        div_container.append(div_item) 
 
         div_item.addEventListener('click', () => modal(elem))
     }
-    let select_item = document.querySelector('.select_item')
+
         select_item.onchange = (e) => {
-        render(sortElems(data, e.target.value))
+            render(sortElems(data, e.target.value))
         }
-}
+} 
 
 //sort
 function sortElems(data,type) {
@@ -54,6 +73,7 @@ function sortElems(data,type) {
     } else if(type == '0') {
         data.sort((currElem, nextElem) => currElem.id - nextElem.id)
     }
+    localStorage.setItem('products', JSON.stringify(data))
     return data
 }
 
@@ -124,4 +144,4 @@ function rating(n) {
     return div_rating
 }
 
-fetchProductsList()
+prerender()
