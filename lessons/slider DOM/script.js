@@ -42,6 +42,9 @@ function goRight() {
     if (slider_index < images.length - 1) {
         slider_index++
         cards.style.left = `${-1 * slider_index * 500}px`
+    } else{
+        slider_index = 0
+        cards.style.left = `${-1 * slider_index * 500}px`
     }
 }
 
@@ -49,8 +52,34 @@ function goLeft() {
     if (slider_index != 0) {
         slider_index--
         cards.style.left = `${-1 * slider_index * 500}px`
+    } else{
+        slider_index = images.length - 1
+        cards.style.left = `${-1 * slider_index * 500}px`
     }
 }
-
+  
 right_btn.addEventListener('click', goRight)
 left_btn.addEventListener('click', goLeft)
+
+function create_rounds() {
+    const container = document.createElement('div')
+    container.className = 'rounds' 
+
+    for (let i = 0; i < images.length; i++) {
+        const btn = document.createElement('button')
+        container.append(btn)
+
+        btn.addEventListener('click', () => {
+            slider_index = i
+            cards.style.left = `${-1 * slider_index * 500}px`
+
+            const buttons = btn.parentElement.childNodes
+            buttons.forEach(elem => elem.classList.remove('active'))
+
+            btn.classList.add('active')
+        })
+    }
+    frame.append(container)
+}
+
+create_rounds()
